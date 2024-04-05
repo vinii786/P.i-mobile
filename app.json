@@ -4,10 +4,10 @@
     "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/relampago-mcqueen.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/relampago-mcqueen.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/relampago-mcqueen.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.vinii786.myapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ac2cd7ed-fede-43d3-9860-8df8d401e24f"
+      }
     }
   }
 }
