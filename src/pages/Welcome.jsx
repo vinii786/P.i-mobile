@@ -3,10 +3,13 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export default function App() {
-  const navigation = useNavigation();
+  const { navigate }= useNavigation();
 
   const handleNavigateToCadastro = () => {
-    navigation.navigate('Cadastro'); 
+    navigate('Cadastro'); 
+  };
+  const handleNavigateTologin = () => {
+    navigate('Login'); 
   };
 
   return (
@@ -25,7 +28,7 @@ export default function App() {
         <View style={styles.entrar}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Entrar')}>
+            onPress={ handleNavigateTologin }>
             <Text style={styles.buttonText}>
               Entrar
             </Text>
@@ -59,6 +62,7 @@ const styles = StyleSheet.create({
     marginBottom: 1, 
   },
   text: {
+    fontFamily: 'Poppins_700Bold',
     fontWeight: 'bold',
     fontSize: 20,
     marginBottom: 20, 
@@ -76,9 +80,9 @@ const styles = StyleSheet.create({
     marginBottom: 10, 
   },
   buttonText: {
+    fontFamily: 'Poppins_700Bold',
     color: '#fff',
     fontSize: 20,
-    fontWeight: 'bold',
   },
   entrar: {
     paddingTop: 30,
