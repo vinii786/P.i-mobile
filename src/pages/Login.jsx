@@ -16,7 +16,9 @@ import { Image } from "react-native-animatable";
 export default function Login(){
 
     const { navigate }= useNavigation();
-
+    const handleNavigateToHome = () => {
+        navigate('Home'); 
+      };
     return(
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -74,6 +76,7 @@ export default function Login(){
             <View style={styles.cont3}>
                 <TouchableOpacity
                     style={styles.submitButton}
+                    onPress={ handleNavigateToHome }
                 >
                     <Text style={styles.inputBotton}>
                         Entrar
