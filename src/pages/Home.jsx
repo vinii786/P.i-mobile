@@ -41,12 +41,16 @@ export default function Login(){
             </View>
 
             <View style={styles.inputBusca}>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Procurar por categorias "
-                        placeholderTextColor="#FFF"
-                    />
-                </View>
+                <Image
+                    source={require('../assets/img/lupa.png')}
+                    style={styles.lupaIcon}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Procurar por categorias"
+                    placeholderTextColor="#FFF"
+                />
+            </View>
         </View>
     )
 }
@@ -56,44 +60,47 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingTop: 35,
         alignItems: 'center'
-      },
-      header: {
+    },
+    header: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 30
-      },
-      image: {
+    },
+    image: {
         width: 65,
         height: 65,
-      },
-      imageNotificacao: {
+    },
+    imageNotificacao: {
         width: 30,
         height: 30
-      },
-      text: {
+    },
+    text: {
         fontFamily: 'Poppins_700Bold',
         fontSize: 20,
         color: '#4B9B69',
-      },
-      headerIcons: {
+    },
+    headerIcons: {
         display: 'flex',
         flexDirection: 'row',
-      },
-      input: {
-        textAlign: 'center',
+    },
+    input: {
         textAlignVertical: 'center',
         flex: 1,
         paddingHorizontal: 20,
         color: 'white',
     },
-      inputBusca: {
+    inputBusca: {
         borderRadius: 20,
         alignItems: 'center',
         width: 340,
         height: 40,
         top: 40,
         backgroundColor: '#4B9B69',
-    }
+        flexDirection: 'row',
+    },
+    lupaIcon: {
+        marginLeft: 8,
+    },
 });
