@@ -4,11 +4,6 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity,
-    TextInput,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Image } from "react-native-animatable";
@@ -16,6 +11,10 @@ import { Image } from "react-native-animatable";
 export default function Login(){
     return(
         <View style={styles.container}>
+            <StatusBar
+                backgroundColor="#4B9B69"
+                barStyle={false}
+            />
             <View style={styles.header}>
                 <Image
                     source={require('../assets/img/image.png')}
@@ -40,16 +39,28 @@ export default function Login(){
                 </View>
             </View>
 
-            <View style={styles.inputBusca}>
-                <Image
-                    source={require('../assets/img/lupa.png')}
-                    style={styles.lupaIcon}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Procurar por categorias"
-                    placeholderTextColor="#FFF"
-                />
+            <View style={styles.cardContainer}>
+                <View style={styles.cardProdutos}>
+                    <Image 
+                    source={require('../assets/img/icon1.png')}
+                    style={styles.iconsImg}
+                    />
+                    <Text style={styles.text}> Produtos </Text>
+                </View>
+                <View style={styles.cardProdutos}>
+                    <Image 
+                    source={require('../assets/img/icon2.png')}
+                    style={styles.iconsImg}
+                    />
+                    <Text style={styles.text}> Clientes </Text>
+                </View>
+                <View style={styles.cardProdutos}>
+                    <Image 
+                    source={require('../assets/img/icon3.png')}
+                    style={styles.iconsImg}
+                    />
+                    <Text style={styles.text}> Vendas </Text>
+                </View>
             </View>
         </View>
     )
@@ -58,15 +69,20 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingTop: 35,
+        paddingTop: 0,
         alignItems: 'center'
     },
     header: {
+        width: '100%',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 30
+        gap: 30,
+        backgroundColor: '#4B9B69',
+        paddingTop: 38,
+        paddingBottom: 20,
+        borderRadius: 35
     },
     image: {
         width: 65,
@@ -79,7 +95,7 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'Poppins_700Bold',
         fontSize: 20,
-        color: '#4B9B69',
+        color: 'white',
     },
     headerIcons: {
         display: 'flex',
@@ -103,4 +119,29 @@ const styles = StyleSheet.create({
     lupaIcon: {
         marginLeft: 8,
     },
+    cardContainer:{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 40,
+    },
+    cardProdutos:{
+        textAlign: 'center',
+        alignItems: 'center',
+        backgroundColor: '#4B9B69',
+        paddingVertical: 20,
+        paddingHorizontal: 50,
+        borderRadius: 20
+    },
+    iconsImg:{
+        width: 90,
+        height: 90,
+        
+    },
+    text: {
+        fontFamily: 'Poppins_400Regular',
+        fontWeight: 'bold',
+        fontSize: 20,
+        color:'white'
+    }
 });
