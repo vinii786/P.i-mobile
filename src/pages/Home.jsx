@@ -1,14 +1,22 @@
-import React, { useState } from "react";
-import { useNavigation } from '@react-navigation/native';
+import React, { useState} from "react";
+import { } from '@react-navigation/native';
 import {
     View,
     Text,
     StyleSheet,
+    TouchableOpacity,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Image } from "react-native-animatable";
+import { useNavigation } from '@react-navigation/native';
 
-export default function Login(){
+export default function Home(){
+
+    const { navigate }= useNavigation();
+    const handleNavigateToProdutos = () => {
+        navigate('Produtos'); 
+      };
+
     return(
         <View style={styles.container}>
             <StatusBar
@@ -40,27 +48,36 @@ export default function Login(){
             </View>
 
             <View style={styles.cardContainer}>
-                <View style={styles.cardProdutos}>
-                    <Image 
-                    source={require('../assets/img/icon1.png')}
-                    style={styles.iconsImg}
-                    />
-                    <Text style={styles.text}> Produtos </Text>
-                </View>
-                <View style={styles.cardProdutos}>
-                    <Image 
-                    source={require('../assets/img/icon2.png')}
-                    style={styles.iconsImg}
-                    />
-                    <Text style={styles.text}> Clientes </Text>
-                </View>
-                <View style={styles.cardProdutos}>
-                    <Image 
-                    source={require('../assets/img/icon3.png')}
-                    style={styles.iconsImg}
-                    />
-                    <Text style={styles.text}> Vendas </Text>
-                </View>
+                <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={ handleNavigateToProdutos }
+                >
+                    <View style={styles.cardProdutos}>
+                        <Image 
+                            source={require('../assets/img/icon1.png')}
+                            style={styles.iconsImg}
+                        />
+                        <Text style={styles.text}> Produtos </Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.7}>
+                    <View style={styles.cardProdutos}>
+                        <Image 
+                            source={require('../assets/img/icon2.png')}
+                            style={styles.iconsImg}
+                        />
+                        <Text style={styles.text}> Clientes </Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.7}>
+                    <View style={styles.cardProdutos}>
+                        <Image 
+                            source={require('../assets/img/icon3.png')}
+                            style={styles.iconsImg}
+                        />
+                        <Text style={styles.text}> Vendas </Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -106,15 +123,6 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 20,
         color: 'white',
-    },
-    inputBusca: {
-        borderRadius: 20,
-        alignItems: 'center',
-        width: 340,
-        height: 40,
-        top: 40,
-        backgroundColor: '#4B9B69',
-        flexDirection: 'row',
     },
     lupaIcon: {
         marginLeft: 8,

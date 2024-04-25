@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "my-app",
-    "slug": "my-app",
+    "name": "Safra Vision",
+    "slug": "Safra Vision",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/relampago-mcqueen.png",
+    "icon": "./assets/iconApp.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/relampago-mcqueen.png",
-      "resizeMode": "contain",
+      "image": "./assets/loadScreen.jpeg",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
@@ -19,7 +19,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/relampago-mcqueen.png",
+        "foregroundImage": "./assets/loadScreen.jpeg",
         "backgroundColor": "#ffffff"
       },
       "package": "com.vinii786.myapp"

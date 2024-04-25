@@ -4,6 +4,7 @@ import Cadastro from '../pages/Cadastro'
 import Welcome from '../pages/Welcome'
 import Login from '../pages/Login';
 import Home from '../pages/Home'
+import Produtos from '../pages/Produtos'
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,11 @@ export default function Routes(){
             <Stack.Screen
                 name= "Home"
                 component={Home}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name= "Produtos"
+                component={Produtos}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>
