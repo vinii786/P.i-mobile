@@ -18,12 +18,32 @@ export default function Cadastro(){
     const { navigate }= useNavigation();
     const [senha, setSenha] = useState("");
     const [confirmarSenha, setConfirmarSenha] = useState("");
+    const [nome, setNome] = useState("");
+    const [email, setEmail] = useState("");
 
-    const handleNavigateToCadastro = () => {
-      if (senha !== confirmarSenha) {
-        Alert.alert("Erro", "As senhas não coincidem");
-        return;
-      }
+    const isEmailValid = (email) => {
+
+        const emailTest = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailTest.test(email);
+    };
+    
+    const handleNavigateToHome = () => {
+        if (!nome || !email || !senha || !confirmarSenha) {
+            Alert.alert("Erro", "Por favor, preencha todos os campos.");
+            return;
+        }
+    
+        if (!isEmailValid(email)) {
+            Alert.alert("Erro", "Por favor, insira um e-mail válido.");
+            return;
+        }
+    
+        if (senha !== confirmarSenha) {
+            Alert.alert("Erro", "As senhas não coincidem");
+            return;
+        }
+    
+        navigate('Home');
     };
 
     return(
@@ -35,7 +55,7 @@ export default function Cadastro(){
           backgroundColor="#4B9B69"
           barStyle={false}
         />
-        <ScrollView contentContainerStyle={styles.scrollView}>
+        <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
           <View style={styles.textArea}>
               <TouchableOpacity
                   style={styles.button}
@@ -60,6 +80,7 @@ export default function Cadastro(){
                   <TextInput
                       style={styles.input}
                       placeholder="Seu nome completo"
+                      onChangeText={text => setNome(text)}
                   />
               </View>
               <View style={styles.inputContainer}>
@@ -69,6 +90,7 @@ export default function Cadastro(){
                   <TextInput
                       style={styles.input}
                       placeholder="Seu e-mail"
+                      onChangeText={text => setEmail(text)} 
                   />
               </View>
               <View style={styles.inputContainer}>
@@ -105,7 +127,7 @@ export default function Cadastro(){
               <View style={styles.cont3}>
                   <TouchableOpacity
                       style={styles.submitButton}
-                      onPress={handleNavigateToCadastro}
+                      onPress={handleNavigateToHome}
                   >
                       <Text style={styles.inputBotton}>
                           Cadastre-se

@@ -29,7 +29,7 @@ export default function Login(){
                 barStyle={false}
             />
 
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.backButton}>
                     <TouchableOpacity
                         style={styles.button}
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     },
     backButton: {
         alignItems: 'flex-start',
-        padding: 10
+        padding: 10,
     },
     buttonImg:{
         width: '40%'
