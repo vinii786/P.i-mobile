@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import { Image } from "react-native-animatable";
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
 
 export default function Produtos() {
-    useNavigation
+    const { navigate }= useNavigation();
+    const handleNavigateToHome = () => {
+        navigate('Home'); 
+    };
+
     return (
         <View style={styles.container}>
             <StatusBar
@@ -15,7 +19,9 @@ export default function Produtos() {
             <View style={styles.header}>
                 <View style={styles.headerContent}>
                     <View style={styles.backButton}>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={handleNavigateToHome}>
                             <Image
                                 source={require('../assets/img/back.png')}
                                 style={styles.buttonImg}
@@ -34,6 +40,22 @@ export default function Produtos() {
                         />
                     </View>
                 </View>
+
+                <View style={styles.buscaContainer}>
+                    <View style={styles.buscaButton}>
+                        <Image
+                            source={require('../assets/img/lupaBlack.png')}
+                            resizeMode="contain"
+                            style={{ marginRight: 10 }} 
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Buscar produtos"
+                            placeholderTextColor="#757575"
+                            textAlign="left"
+                        />
+                    </View>
+                </View>
             </View>
         </View>
     );
@@ -48,21 +70,18 @@ const styles = StyleSheet.create({
     },
     header: {
         width: '100%',
-    },
-    headerContent: {
-        paddingTop: 55,
-        paddingBottom: 20,
+        backgroundColor: '#4B9B69',
         borderRadius: 35,
-        gap: 70,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#4B9B69',
-        display: 'flex',
-        flexDirection: 'row'
     },
-    image: {
-        width: 65,
-        height: 65,
+    headerContent: {
+        width: '90%',
+        paddingTop: 55,
+        paddingBottom: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     imageNotificacao: {
         width: 30,
@@ -74,10 +93,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     headerIcons: {
-        display: 'flex',
         flexDirection: 'row',
-    },
-    backButton: {
     },
     button: {
         backgroundColor: 'white',
@@ -92,4 +108,21 @@ const styles = StyleSheet.create({
     buttonImg: {
         width: '40%'
     },
+    buscaButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderRadius: 20,
+        paddingHorizontal: 10, 
+        height: 40,
+        backgroundColor: '#86C49D',
+        width: '90%',
+    },
+    input: {
+        flex: 1,
+        color: '#000', 
+    },
+    buscaContainer: {
+        paddingBottom: 15
+    }
 });
