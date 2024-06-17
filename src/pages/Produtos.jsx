@@ -6,10 +6,12 @@ import { StatusBar } from "expo-status-bar";
 
 export default function Produtos() {
     const { navigate }= useNavigation();
-    const handleNavigateToHome = () => {
-        navigate('Home'); 
+    const handleNavigateToCadastProd = () => {
+        navigate('cadastProd'); 
     };
-
+    const handleNavigateToHome = () => {
+        navigate('Home');
+    }
     return (
         <View style={styles.container}>
             <StatusBar
@@ -57,6 +59,18 @@ export default function Produtos() {
                     </View>
                 </View>
             </View>
+
+            <View>
+                <TouchableOpacity
+                      style={styles.registprodButton}
+                      onPress={handleNavigateToCadastProd}
+                  >
+                      <Text style={styles.inputBotton}>
+                          Registrar produto
+                      </Text>
+                  </TouchableOpacity>
+                </View>
+
         </View>
     );
 }
@@ -74,6 +88,7 @@ const styles = StyleSheet.create({
         borderRadius: 35,
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom: 10
     },
     headerContent: {
         width: '90%',
@@ -124,5 +139,16 @@ const styles = StyleSheet.create({
     },
     buscaContainer: {
         paddingBottom: 15
+    },
+    registprodButton:{
+        backgroundColor: '#4B9B69',
+        width: 340,
+        alignItems: "center",
+        borderRadius: 20
+    },
+    inputBotton: {
+        color: 'white',
+        fontFamily: 'Poppins_700Bold',
+        margin: 10
     }
 });

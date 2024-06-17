@@ -15,15 +15,6 @@ export default function App() {
     Poppins_900Black
   })
 
-  const onLayoutRootView = useCallback(async () => {
-    if (hasLoadedFonts) {
-      await SplashScreen.hideAsync();
-    }
-
-  }, [hasLoadedFonts]);
-  if (!hasLoadedFonts) {
-    return null
-  }
 
   return (
     <NavigationContainer>
