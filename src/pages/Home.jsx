@@ -16,6 +16,12 @@ export default function Home(){
     const handleNavigateToProdutos = () => {
         navigate('Produtos'); 
       };
+      const handleNavigateToClientes = () => {
+        navigate('Clientes'); 
+      };
+      const handleNavigateToVendas = () => {
+        navigate('Vendas'); 
+      };
 
     return(
         <View style={styles.container}>
@@ -60,7 +66,9 @@ export default function Home(){
                         <Text style={styles.text}> Produtos </Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.7}>
+                <TouchableOpacity activeOpacity={0.7}
+                    onPress={ handleNavigateToClientes }
+                >
                     <View style={styles.cardProdutos}>
                         <Image 
                             source={require('../assets/img/icon2.png')}
@@ -69,7 +77,10 @@ export default function Home(){
                         <Text style={styles.text}> Clientes </Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.7}>
+                <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={handleNavigateToVendas}
+                >
                     <View style={styles.cardProdutos}>
                         <Image 
                             source={require('../assets/img/icon3.png')}

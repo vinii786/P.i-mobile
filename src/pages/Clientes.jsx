@@ -6,8 +6,8 @@ import { StatusBar } from "expo-status-bar";
 
 export default function Produtos() {
     const { navigate }= useNavigation();
-    const handleNavigateToCadastroDeProdutos = () => {
-        navigate('CadastProd'); 
+    const handleNavigateToCadastClient = () => {
+        navigate('CadastClient'); 
     };
     const handleNavigateToHome = () => {
         navigate('Home');
@@ -32,7 +32,7 @@ export default function Produtos() {
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.text}>
-                        PRODUTOS
+                        CLIENTES
                     </Text>
                     <View style={styles.headerIcons}>
                         <Image
@@ -52,7 +52,7 @@ export default function Produtos() {
                         />
                         <TextInput
                             style={styles.input}
-                            placeholder="Buscar produtos"
+                            placeholder="Buscar clientes"
                             placeholderTextColor="#757575"
                             textAlign="left"
                         />
@@ -63,14 +63,15 @@ export default function Produtos() {
             <View>
                 <TouchableOpacity
                       style={styles.registprodButton}
-                      onPress={handleNavigateToCadastroDeProdutos}
+                      onPress={handleNavigateToCadastClient}
                   >
                       <Text style={styles.inputBotton}>
-                          Registrar produto
+                          Registrar clientes
                       </Text>
                   </TouchableOpacity>
                 </View>
-            </View>
+
+        </View>
     );
 }
 
@@ -149,8 +150,5 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'Poppins_700Bold',
         margin: 10
-    },
-    containerForm: {
-        flex:2
     }
 });

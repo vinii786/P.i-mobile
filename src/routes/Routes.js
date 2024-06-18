@@ -5,6 +5,11 @@ import Welcome from '../pages/Welcome'
 import Login from '../pages/Login';
 import Home from '../pages/Home'
 import Produtos from '../pages/Produtos'
+import Clientes from '../pages/Clientes';
+import Vendas from '../pages/Vendas';
+import CadastProd from '../pages/CadastProd';
+import CadastClient from '../pages/CadastClient'
+import CadastVendas from '../pages/CadastVendas'
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +40,31 @@ export default function Routes(){
             <Stack.Screen
                 name= "Produtos"
                 component={Produtos}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name= "Clientes"
+                component={Clientes}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name= "Vendas"
+                component={Vendas}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name= "CadastProd"
+                component={CadastProd}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name= "CadastClient"
+                component={CadastClient}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name= "CadastVendas"
+                component={CadastVendas}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>
