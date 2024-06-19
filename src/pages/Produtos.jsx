@@ -1,17 +1,38 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import { Image } from "react-native-animatable";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
+import axios from 'axios';
 
 export default function Produtos() {
-    const { navigate }= useNavigation();
+    const [produtos, setProdutos] = useState([]);
+    const isFocused = useIsFocused();
+    const carregarProdutos = () => {
+        axios
+            .get('https://safravisionapp.azurewebsites.net/api/Produto/BuscarTodosProdutos')
+            .then(response => {
+                setProdutos(response.data);
+            })
+            .catch(error => {
+                console.error('Erro ao carregar produtos:', error.message);
+            });
+    };
+
+    useEffect(() => {
+        carregarProdutos();
+    }, [isFocused]);
+
+    const { navigate } = useNavigation();
+
     const handleNavigateToCadastroDeProdutos = () => {
         navigate('CadastProd'); 
     };
+
     const handleNavigateToHome = () => {
         navigate('Home');
-    }
+    };
+
     return (
         <View style={styles.container}>
             <StatusBar
@@ -60,17 +81,30 @@ export default function Produtos() {
                 </View>
             </View>
 
-            <View>
+            <ScrollView contentContainerStyle={styles.scrollView}>
                 <TouchableOpacity
-                      style={styles.registprodButton}
-                      onPress={handleNavigateToCadastroDeProdutos}
-                  >
-                      <Text style={styles.inputBotton}>
-                          Registrar produto
-                      </Text>
-                  </TouchableOpacity>
+                    style={styles.registprodButton}
+                    onPress={handleNavigateToCadastroDeProdutos}
+                >
+                    <Text style={styles.inputBotton}>
+                        Registrar produto
+                    </Text>
+                </TouchableOpacity>
+                
+                <View>
+                    {produtos.map((Produto, index) => (
+                        <View key={index} style={styles.produtoContainer}>
+                            <Text style={styles.produtoText}>Detalhes do produto</Text>
+                            <Text style={styles.produtoText}>Nome do produto: {Produto.nomeProduto}</Text>
+                            <Text style={styles.produtoText}>Descrição: {Produto.descricao}</Text>
+                            <Text style={styles.produtoText}>Quantidade: {Produto.qtdEstoque}</Text>
+                            <Text style={styles.produtoText}>Preço: {Produto.preco}</Text>
+                            <Text>{}</Text>
+                        </View>
+                    ))}
                 </View>
-            </View>
+            </ScrollView>
+        </View>
     );
 }
 
@@ -79,7 +113,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         paddingTop: 0,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     header: {
         width: '100%',
@@ -139,18 +174,33 @@ const styles = StyleSheet.create({
     buscaContainer: {
         paddingBottom: 15
     },
-    registprodButton:{
+    registprodButton: {
         backgroundColor: '#4B9B69',
-        width: 340,
         alignItems: "center",
-        borderRadius: 20
+        borderRadius: 20,
+        margin: 20,
+        paddingVertical: 15,
+        paddingHorizontal: 20,
     },
     inputBotton: {
         color: 'white',
         fontFamily: 'Poppins_700Bold',
-        margin: 10
+        margin: 10,
+        fontSize: 16,
     },
-    containerForm: {
-        flex:2
-    }
+    scrollView: {
+        flexGrow: 1,
+        width: '100%',
+    },
+    produtoContainer: {
+        backgroundColor: '#90ee90',
+        padding: 10,
+        margin: 15,
+        borderRadius: 10,
+    },
+    produtoText: {
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 16,
+        marginBottom: 5,
+    },
 });
