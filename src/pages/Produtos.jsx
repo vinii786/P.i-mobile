@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Alert } from "react-native";
 import { Image } from "react-native-animatable";
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
@@ -8,6 +8,7 @@ import axios from 'axios';
 export default function Produtos() {
     const [produtos, setProdutos] = useState([]);
     const isFocused = useIsFocused();
+
     const carregarProdutos = () => {
         axios
             .get('https://safravisionapp.azurewebsites.net/api/Produto/BuscarTodosProdutos')
@@ -32,6 +33,24 @@ export default function Produtos() {
     const handleNavigateToHome = () => {
         navigate('Home');
     };
+
+    const calcularValorTotal = (preco, qtdEstoque) => {
+        return (preco * qtdEstoque).toFixed(2);
+    };
+
+    const handleDeleteProduto = (id) => {
+        axios
+            .delete(`https://safravisionapp.azurewebsites.net/api/Produto/DeletarProduto?idProduto=${id}`)
+            .then(response => {
+                Alert.alert('Produto deletado com sucesso!');
+                carregarProdutos();
+            })
+            .catch(error => {
+                console.error('Erro ao deletar produto:', error.message);
+                Alert.alert('Erro ao deletar produto. Tente novamente mais tarde.');
+            });
+    };
+
 
     return (
         <View style={styles.container}>
@@ -92,14 +111,31 @@ export default function Produtos() {
                 </TouchableOpacity>
                 
                 <View>
-                    {produtos.map((Produto, index) => (
+                    {produtos.map((produto, index) => (
                         <View key={index} style={styles.produtoContainer}>
-                            <Text style={styles.produtoText}>Detalhes do produto</Text>
-                            <Text style={styles.produtoText}>Nome do produto: {Produto.nomeProduto}</Text>
-                            <Text style={styles.produtoText}>Descrição: {Produto.descricao}</Text>
-                            <Text style={styles.produtoText}>Quantidade: {Produto.qtdEstoque}</Text>
-                            <Text style={styles.produtoText}>Preço: {Produto.preco}</Text>
-                            <Text>{}</Text>
+                            <View style={styles.contTittle}>
+                                <Text style={styles.produtoTittle}>Detalhes do produto</Text>
+                            </View>
+                            <View style={styles.contProdInfo}>
+                                <Text style={styles.produtoTextTittle}>Nome do produto</Text>
+                                <Text style={{ paddingBottom: 10 }}>{produto.nomeProduto}</Text>
+
+                                <Text style={styles.produtoTextTittle}>Descrição</Text>
+                                <Text style={{ paddingBottom: 10 }}>{produto.descricao}</Text>
+
+                                <Text style={styles.produtoTextTittle}>Quantidade</Text>
+                                <Text style={styles.produtoTextTittle}>{produto.qtdEstoque} KG</Text>
+
+                                <Text style={styles.produtoTextTittle}>Preço</Text>
+                                <Text style={styles.produtoTextTittle}>{produto.preco} R$ por KG</Text>
+
+                                <TouchableOpacity
+                                    style={styles.deleteButton}
+                                    onPress={() => handleDeleteProduto(produto.idProduto)}
+                                >
+                                    <Text style={styles.deleteButtonText}>Apagar</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     ))}
                 </View>
@@ -188,19 +224,43 @@ const styles = StyleSheet.create({
         margin: 10,
         fontSize: 16,
     },
-    scrollView: {
-        flexGrow: 1,
-        width: '100%',
-    },
+
     produtoContainer: {
-        backgroundColor: '#90ee90',
-        padding: 10,
+        backgroundColor: 'rgba(75, 155, 105, 0.19)',
+        minWidth: 353,
+        minHeight: 380,
+        flex: 1,
+        padding: 20,
         margin: 15,
         borderRadius: 10,
     },
-    produtoText: {
+    contTittle: {
+        alignItems: 'center',
+    },
+    contProdInfo:{
+        padding: 20,
+        paddingLeft: 10
+    },
+    produtoTittle:{
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 21,
+        fontWeight: 'bold'
+    },
+    produtoTextTittle: {
         fontFamily: 'Poppins_400Regular',
         fontSize: 16,
-        marginBottom: 5,
+        marginBottom: 8,
+    },
+    deleteButton: {
+        backgroundColor: 'red',
+        alignItems: 'center',
+        borderRadius: 10,
+        padding: 10,
+        marginTop: 10,
+    },
+    deleteButtonText: {
+        color: 'white',
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 16,
     },
 });

@@ -29,7 +29,6 @@ export default function CadastProd() {
         axios
             .post('https://safravisionapp.azurewebsites.net/api/Produto/InserirProduto', novoProduto)
             .then(response => {
-                console.log('Resposta da API:', response.data); // Verifica a resposta da API
                 setProdutos([...produtos, response.data]);
                 setNomeProduto('');
                 setDescricao('');
