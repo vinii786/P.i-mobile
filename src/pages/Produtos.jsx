@@ -46,7 +46,6 @@ export default function Produtos() {
                 carregarProdutos();
             })
             .catch(error => {
-                
                 console.error('Erro ao deletar produto:', error.message);
                 Alert.alert('Erro ao deletar produto. Tente novamente mais tarde.');
             });

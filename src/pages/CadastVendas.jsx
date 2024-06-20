@@ -83,6 +83,18 @@ export default function CadastProd() {
                     />
                 </View>
                 <View>
+                    <Text style={styles.textForm}>Descrição da venda</Text>
+                    <TextInput
+                        style={[styles.input, {height: 150}]}
+                        onChangeText={text => setQuantidade(text)}
+                        placeholder="Descrição da venda"
+                        placeholderTextColor="#757575"
+                        textAlign="left"
+                        multiline
+                        value={quantidade}
+                    />
+                </View>
+                <View>
                     <Text style={styles.textForm}>Quantidade</Text>
                     <TextInput
                         style={styles.input}

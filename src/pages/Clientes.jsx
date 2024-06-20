@@ -5,18 +5,18 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
 import axios from 'axios';
 
-export default function Produtos() {
-    const [produtos, setProdutos] = useState([]);
+export default function Clientes() {
+    const [clientes, setClientes] = useState([]);
     const isFocused = useIsFocused();
 
     const carregarClientes = () => {
         axios
-            .get('https://safravisionapp.azurewebsites.net/api/Usuario/BuscarTodosUsuarios')
+            .get('https://safravisionapp.azurewebsites.net/api/Cliente/BuscarTodosClientes')
             .then(response => {
-                setProdutos(response.data);
+                setClientes(response.data);
             })
             .catch(error => {
-                console.error('Erro ao carregar produtos:', error.message);
+                console.error('Erro ao carregar clientes:', error.message);
             });
     };
 
@@ -34,26 +34,24 @@ export default function Produtos() {
         navigate('Home');
     };
 
-    const handleDeleteProduto = (id) => {
+    const handleDeleteCliente = (id) => {
         axios
-            .delete(`https://safravisionapp.azurewebsites.net/api/Produto/DeletarProduto?idProduto=${id}`)
+            .delete(`https://safravisionapp.azurewebsites.net/api/Cliente/DeletarCliente?idCliente=${id}`)
             .then(response => {
-                Alert.alert('Produto deletado com sucesso!');
-                carregarProdutos();
+                Alert.alert('Cliente deletado com sucesso!');
+                carregarClientes();
             })
             .catch(error => {
-                
-                console.error('Erro ao deletar produto:', error.message);
-                Alert.alert('Erro ao deletar produto. Tente novamente mais tarde.');
+                console.error('Erro ao deletar cliente:', error.message);
+                Alert.alert('Erro ao deletar cliente. Tente novamente mais tarde.');
             });
     };
-
 
     return (
         <View style={styles.container}>
             <StatusBar
                 backgroundColor="#4B9B69"
-                barStyle={false}
+                barStyle="light-content"
             />
             <View style={styles.header}>
                 <View style={styles.headerContent}>
@@ -99,36 +97,33 @@ export default function Produtos() {
 
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <TouchableOpacity
-                    style={styles.registprodButton}
+                    style={styles.registClientButton}
                     onPress={handleNavigateToCadastroDeCliente}
                 >
                     <Text style={styles.inputBotton}>
-                        Registrar clientes
+                        Registrar cliente
                     </Text>
                 </TouchableOpacity>
                 
                 <View>
-                    {produtos.map((cliente, index) => (
-                        <View key={index} style={styles.produtoContainer}>
+                    {clientes.map((cliente, index) => (
+                        <View key={index} style={styles.clienteContainer}>
                             <View style={styles.contTittle}>
-                                <Text style={styles.produtoTittle}>Detalhes do produto</Text>
+                                <Text style={styles.clienteTittle}>Detalhes do cliente</Text>
                             </View>
-                            <View style={styles.contProdInfo}>
-                                <Text style={styles.produtoTextTittle}>Nome do produto</Text>
-                                <Text style={{ paddingBottom: 10 }}>{cliente.nomeUsuario}</Text>
+                            <View style={styles.contClientInfo}>
+                                <Text style={styles.clienteTextTittle}>Nome</Text>
+                                <Text style={{ paddingBottom: 10 }}>{cliente.nomeCliente}</Text>
 
-                                <Text style={styles.produtoTextTittle}>Descrição</Text>
+                                <Text style={styles.clienteTextTittle}>Descrição</Text>
                                 <Text style={{ paddingBottom: 10 }}>{cliente.descricao}</Text>
 
-                                <Text style={styles.produtoTextTittle}>Quantidade</Text>
-                                <Text style={styles.produtoTextTittle}>{cliente.qtdEstoque} KG</Text>
-
-                                <Text style={styles.produtoTextTittle}>Preço</Text>
-                                <Text style={styles.produtoTextTittle}>{cliente.preco} R$ por KG</Text>
+                                <Text style={styles.clienteTextTittle}>Telefone</Text>
+                                <Text style={{ paddingBottom: 10 }}>{cliente.numeroTelefone}</Text>
 
                                 <TouchableOpacity
                                     style={styles.deleteButton}
-                                    onPress={() => handleDeleteProduto(cliente.idProduto)}
+                                    onPress={() => handleDeleteCliente(cliente.idCliente)}
                                 >
                                     <Text style={styles.deleteButtonText}>Apagar</Text>
                                 </TouchableOpacity>
@@ -155,12 +150,12 @@ const styles = StyleSheet.create({
         borderRadius: 35,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 10
+        marginBottom: 10,
+        paddingTop: 55,
+        paddingBottom: 20,
     },
     headerContent: {
         width: '90%',
-        paddingTop: 55,
-        paddingBottom: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -199,15 +194,13 @@ const styles = StyleSheet.create({
         height: 40,
         backgroundColor: '#86C49D',
         width: '90%',
+        marginBottom: 15,
     },
     input: {
         flex: 1,
         color: '#000', 
     },
-    buscaContainer: {
-        paddingBottom: 15
-    },
-    registprodButton: {
+    registClientButton: {
         backgroundColor: '#4B9B69',
         alignItems: "center",
         borderRadius: 20,
@@ -221,11 +214,10 @@ const styles = StyleSheet.create({
         margin: 10,
         fontSize: 16,
     },
-
-    produtoContainer: {
+    clienteContainer: {
         backgroundColor: 'rgba(75, 155, 105, 0.19)',
         minWidth: 353,
-        minHeight: 380,
+        maxHeight: 380,
         flex: 1,
         padding: 20,
         margin: 15,
@@ -234,16 +226,16 @@ const styles = StyleSheet.create({
     contTittle: {
         alignItems: 'center',
     },
-    contProdInfo:{
+    contClientInfo:{
         padding: 20,
         paddingLeft: 10
     },
-    produtoTittle:{
+    clienteTittle:{
         fontFamily: 'Poppins_400Regular',
         fontSize: 21,
         fontWeight: 'bold'
     },
-    produtoTextTittle: {
+    clienteTextTittle: {
         fontFamily: 'Poppins_400Regular',
         fontSize: 16,
         marginBottom: 8,
@@ -259,5 +251,12 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'Poppins_400Regular',
         fontSize: 16,
+    },
+    scrollView: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buscaContainer: {
+        paddingTop: 15
     },
 });
