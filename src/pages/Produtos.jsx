@@ -117,17 +117,21 @@ export default function Produtos() {
                                 <Text style={styles.produtoTittle}>Detalhes do produto</Text>
                             </View>
                             <View style={styles.contProdInfo}>
-                                <Text style={styles.produtoTextTittle}>Nome do produto</Text>
+                                <Text style={styles.produtoTextTittlee}>Nome do produto</Text>
                                 <Text style={{ paddingBottom: 10 }}>{produto.nomeProduto}</Text>
 
-                                <Text style={styles.produtoTextTittle}>Descrição</Text>
+                                <Text style={styles.produtoTextTittlee}>Descrição</Text>
                                 <Text style={{ paddingBottom: 10 }}>{produto.descricao}</Text>
 
-                                <Text style={styles.produtoTextTittle}>Quantidade</Text>
+                                <Text style={styles.produtoTextTittlee}>Quantidade</Text>
                                 <Text style={styles.produtoTextTittle}>{produto.qtdEstoque} KG</Text>
 
-                                <Text style={styles.produtoTextTittle}>Preço</Text>
+                                <Text style={styles.produtoTextTittlee}>Preço</Text>
                                 <Text style={styles.produtoTextTittle}>{produto.preco} R$ por KG</Text>
+
+                                <Text style={styles.produtoTextTittlee}>Valor total do produto (KG x Preço)</Text>
+                                <Text style={styles.produtoTextTittle}>{`${calcularValorTotal(produto.preco, produto.qtdEstoque)} R$`}</Text>
+
 
                                 <TouchableOpacity
                                     style={styles.deleteButton}
@@ -248,8 +252,14 @@ const styles = StyleSheet.create({
     },
     produtoTextTittle: {
         fontFamily: 'Poppins_400Regular',
-        fontSize: 16,
+        fontSize: 17,
         marginBottom: 8,
+    },
+    produtoTextTittlee: {
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 17,
+        marginBottom: 8,
+        fontWeight: 'bold'
     },
     deleteButton: {
         backgroundColor: 'red',

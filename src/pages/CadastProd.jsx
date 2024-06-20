@@ -112,10 +112,10 @@ export default function CadastProd() {
                 </View>
 
                 <View>
-                    <Text style={styles.textForm}>Quantidade</Text>
+                    <Text style={styles.textForm}>Quantidade(Em KG)</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Quantidade"
+                        placeholder="Quantidade(KG)"
                         placeholderTextColor="#757575"
                         textAlign="left"
                         keyboardType="numeric"

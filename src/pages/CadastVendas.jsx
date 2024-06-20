@@ -2,32 +2,52 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, ScrollView, Platform, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
+import axios from "axios";
 
-export default function CadastProd() {
+export default function CadastVendas() {
+    const { navigate } = useNavigation();
     const [comprador, setComprador] = useState("");
     const [produto, setProduto] = useState("");
+    const [descricao, setDescricao] = useState("");
     const [quantidade, setQuantidade] = useState("");
     const [preco, setPreco] = useState("");
-    const navigation = useNavigation();
 
     const handlePriceChange = (text) => {
         const numericText = text.replace(/[^0-9]/g, "");
         setPreco(`R$ ${numericText}`);
     };
 
-    const handleNavigateToComplete = () => {
-        if (!comprador || !produto || !quantidade || !preco) {
+    const handleNavigateToVendas = () => {
+        navigate('Vendas');
+    };
+
+    const handleComplete = () => {
+        if (!comprador || !produto || !descricao || !quantidade || !preco) {
             Alert.alert("Erro", "Por favor, preencha todos os campos.");
         } else {
-            navigation.navigate('Vendas', {
-                comprador,
-                produto,
-                quantidade,
-                preco,
-            });
-
+            const novaVenda = {
+                clienteVenda: comprador,
+                produtoVenda: produto,
+                descricaoVenda: descricao,
+                qtdVendida: quantidade,
+                preco: parseFloat(preco.replace('R$ ', '')),
+                dataVenda: new Date().toISOString() // Adicionando a data atual no formato ISO string
+            };
+    
+            axios
+                .post('https://safravisionapp.azurewebsites.net/api/Venda/InserirVenda', novaVenda)
+                .then(response => {
+                    Alert.alert('Venda registrada com sucesso!');
+                    navigate('Vendas');
+                })
+                .catch(error => {
+                    console.error('Erro ao registrar venda:', error.message);
+                    Alert.alert('Erro ao registrar venda. Tente novamente mais tarde.');
+                });
+    
             setComprador("");
             setProduto("");
+            setDescricao("");
             setQuantidade("");
             setPreco("");
         }
@@ -39,12 +59,15 @@ export default function CadastProd() {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
         >
-            <StatusBar backgroundColor="#4B9B69" barStyle="light-content" />
+            <StatusBar
+                backgroundColor="#4B9B69"
+                barStyle="light-content"
+            />
             <View style={styles.header}>
                 <View style={styles.headerContent}>
                     <View style={styles.backButton}>
                         <TouchableOpacity
-                            onPress={() => navigation.goBack()}
+                            onPress={handleNavigateToVendas}
                             style={styles.button}
                         >
                             <Image
@@ -55,57 +78,65 @@ export default function CadastProd() {
                         </TouchableOpacity>
                     </View>
                 </View>
+
                 <View style={styles.title}>
-                    <Text style={styles.text}>Digite as informações da venda</Text>
+                    <Text style={styles.text}>
+                        Digite as informações da venda
+                    </Text>
                 </View>
             </View>
+
             <ScrollView contentContainerStyle={styles.containerForm}>
                 <View>
                     <Text style={styles.textForm}>Comprador</Text>
                     <TextInput
-                        onChangeText={text => setComprador(text)}
                         style={styles.input}
                         placeholder="Nome do comprador"
                         placeholderTextColor="#757575"
                         textAlign="left"
                         value={comprador}
+                        onChangeText={(text) => setComprador(text)}
                     />
                 </View>
+
                 <View>
                     <Text style={styles.textForm}>Produto</Text>
                     <TextInput
                         style={styles.input}
-                        onChangeText={text => setProduto(text)}
                         placeholder="Nome do produto"
                         placeholderTextColor="#757575"
                         textAlign="left"
                         value={produto}
+                        onChangeText={(text) => setProduto(text)}
                     />
                 </View>
+
                 <View>
-                    <Text style={styles.textForm}>Descrição da venda</Text>
+                    <Text style={styles.textForm}>Descrição</Text>
                     <TextInput
-                        style={[styles.input, {height: 150}]}
-                        onChangeText={text => setQuantidade(text)}
+                        style={styles.inputDescricao}
                         placeholder="Descrição da venda"
                         placeholderTextColor="#757575"
                         textAlign="left"
                         multiline
-                        value={quantidade}
+                        value={descricao}
+                        onChangeText={(text) => setDescricao(text)}
                     />
                 </View>
+
                 <View>
-                    <Text style={styles.textForm}>Quantidade</Text>
+                    <Text style={styles.textForm}>Quantidade(Em KG)</Text>
                     <TextInput
                         style={styles.input}
-                        onChangeText={text => setQuantidade(text)}
-                        placeholder="Quantidade"
+                        placeholder="Quantidade(KG)"
                         placeholderTextColor="#757575"
                         textAlign="left"
                         keyboardType="numeric"
                         value={quantidade}
+                        onChangeText={(text) => setQuantidade(text)}
                     />
                 </View>
+
                 <View>
                     <Text style={styles.textForm}>Preço</Text>
                     <TextInput
@@ -118,12 +149,15 @@ export default function CadastProd() {
                         onChangeText={handlePriceChange}
                     />
                 </View>
+
                 <View style={styles.registerButtonContainer}>
                     <TouchableOpacity
-                        onPress={handleNavigateToComplete}
                         style={styles.registprodButton}
+                        onPress={handleComplete}
                     >
-                        <Text style={styles.inputButton}>Registrar produto</Text>
+                        <Text style={styles.inputButton}>
+                            Registrar venda
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -181,6 +215,17 @@ const styles = StyleSheet.create({
     input: {
         width: 350,
         height: 40,
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderRadius: 10,
+        paddingLeft: 10,
+        marginBottom: 35,
+        textAlignVertical: 'top',
+        paddingVertical: 10
+    },
+    inputDescricao: {
+        width: 350,
+        height: 90,
         borderStyle: "solid",
         borderWidth: 1,
         borderRadius: 10,
