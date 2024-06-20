@@ -56,10 +56,10 @@ export default function CadastClient() {
                 </View>
 
                 <View>
-                    <Text style={styles.textForm}>Email</Text>
+                    <Text style={styles.textForm}>Descrição</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="e-mail do cliente"
+                        placeholder="Descrição do cliente"
                         placeholderTextColor="#757575"
                         textAlign="left"
                         multiline

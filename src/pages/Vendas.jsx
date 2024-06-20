@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused  } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
+import axios from "axios";
 
 export default function Vendas() {
+    const [vendas, setVendas] = useState([]);
+    const isFocused = useIsFocused();
     const navigation = useNavigation();
 
+    const carregarProdutos = () => {
+        axios
+            .get('https://safravisionapp.azurewebsites.net/api/Venda/BuscarTodasVendas')
+            .then(response => {
+                setProdutos(response.data);
+            })
+            .catch(error => {
+                console.error('Erro ao carregar produtos:', error.message);
+            });
+    };
     const handleNavigateToCadastVendas = () => {
         navigation.navigate('CadastVendas');
     };
