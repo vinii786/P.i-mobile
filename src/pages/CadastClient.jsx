@@ -1,17 +1,55 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, ScrollView, Platform, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
+import axios from "axios";
 
 export default function CadastClient() {
-    const { navigate }= useNavigation();
+    const { navigate } = useNavigation();
+
+    const [clientes, setClientes] = useState([]);
+    const [nomeCliente, setNomeCliente] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [numeroTelefone, setNumeroTelefone] = useState('');
+
+    const addCliente = () => {
+        if (!nomeCliente || !descricao || !numeroTelefone) {
+            Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+            return;
+        }
+
+        const novoCliente = {
+            nomeCliente,
+            descricao,
+            numeroTelefone
+        };
+
+        axios
+            .post('https://safravisionapp.azurewebsites.net/api/Cliente/InserirCliente', novoCliente)
+            .then(response => {
+                setClientes([...clientes, response.data]);
+                setNomeCliente('');
+                setDescricao('');
+                setNumeroTelefone('');
+                navigate('Clientes');
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.error('Erro no servidor:', error.response.data);
+                } else if (error.request) {
+                    console.error('Sem resposta do servidor:', error.request);
+                } else {
+                    console.error('Erro ao configurar requisição:', error.message);
+                }
+            });
+    };
 
     const handleNavigateToCadastClient = () => {
-        navigate('CadastClient');
-    }
+        navigate('Clientes');
+    };
 
     return (
-        <KeyboardAvoidingView
+        <View
             style={styles.container}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
@@ -24,8 +62,8 @@ export default function CadastClient() {
                 <View style={styles.headerContent}>
                     <View style={styles.backButton}>
                         <TouchableOpacity
-                        onPress={handleNavigateToCadastClient}
-                        style={styles.button}
+                            onPress={handleNavigateToCadastClient}
+                            style={styles.button}
                         >
                             <Image
                                 source={require('../assets/img/back.png')}
@@ -47,22 +85,26 @@ export default function CadastClient() {
                 <View>
                     <Text style={styles.textForm}>Nome do cliente</Text>
                     <TextInput
-                        style={styles.input}
+                        style={[styles.input, { height: 55 }]}
                         placeholder="Nome do cliente"
                         placeholderTextColor="#757575"
-                        textAlign="left"
+                        textAlignVertical="top"
                         multiline
+                        value={nomeCliente}
+                        onChangeText={(text) => setNomeCliente(text)}
                     />
                 </View>
 
                 <View>
-                    <Text style={styles.textForm}>Email</Text>
+                    <Text style={styles.textForm}>Descrição</Text>
                     <TextInput
-                        style={styles.input}
-                        placeholder="e-mail do cliente"
+                        style={[styles.input, { height: 100 }]}
+                        placeholder="Descrição do cliente"
                         placeholderTextColor="#757575"
-                        textAlign="left"
+                        textAlignVertical="top"
                         multiline
+                        value={descricao}
+                        onChangeText={(text) => setDescricao(text)}
                     />
                 </View>
 
@@ -73,21 +115,25 @@ export default function CadastClient() {
                         placeholder="Numero de telefone"
                         placeholderTextColor="#757575"
                         textAlign="left"
-                        multiline
+                        multiline={false}
+                        keyboardType="numeric"
+                        value={numeroTelefone}
+                        onChangeText={(text) => setNumeroTelefone(text)}
                     />
                 </View>
-            </ScrollView>
 
             <View style={styles.registerButtonContainer}>
                 <TouchableOpacity
                     style={styles.registprodButton}
+                    onPress={addCliente}
                 >
                     <Text style={styles.inputButton}>
-                        Registrar produto
+                        Registrar cliente
                     </Text>
                 </TouchableOpacity>
             </View>
-        </KeyboardAvoidingView>
+            </ScrollView>
+        </View>
     );
 }
 
@@ -140,25 +186,14 @@ const styles = StyleSheet.create({
     },
     input: {
         width: 350,
-        height: 40,
         borderStyle: "solid",
         borderWidth: 1,
         borderRadius: 10,
         paddingLeft: 10,
         marginBottom: 35,
         textAlignVertical: 'top',
-        paddingVertical: 10
-    },
-    inputDescricao: {
-        width: 350,
-        height: 90,
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderRadius: 10,
-        paddingLeft: 10,
-        marginBottom: 35,
-        textAlignVertical: 'top',
-        paddingVertical: 10
+        paddingVertical: 10,
+        textAlignVertical: 'center'
     },
     textForm: {
         fontFamily: 'Poppins_700Bold',

@@ -1,19 +1,55 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, ScrollView, Platform, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
+import axios from "axios";
 
 export default function CadastProd() {
-    const { navigate }= useNavigation();
-    const [price, setPrice] = useState("");
+    const { navigate } = useNavigation();
+    const [produtos, setProdutos] = useState([]);
+    const [nomeProduto, setNomeProduto] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [preco, setPreco] = useState('');
+    const [qtdEstoque, setQtdEstoque] = useState('');
 
-    const handlePriceChange = (text) => {
-        const numericText = text.replace(/[^0-9]/g, "");
-        setPrice(`R$ ${numericText}`);
+    const addProduto = () => {
+
+        if (!nomeProduto || !descricao || !preco || !qtdEstoque) {
+            Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+            return;
+        }
+
+        const novoProduto = {
+            nomeProduto,
+            descricao,
+            preco: parseFloat(preco),
+            qtdEstoque
+        };
+
+        axios
+            .post('https://safravisionapp.azurewebsites.net/api/Produto/InserirProduto', novoProduto)
+            .then(response => {
+                setProdutos([...produtos, response.data]);
+                setNomeProduto('');
+                setDescricao('');
+                setPreco('');
+                setQtdEstoque('');
+                navigate('Produtos');
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.error('Erro no servidor:', error.response.data);
+                } else if (error.request) {
+                    console.error('Sem resposta do servidor:', error.request);
+                } else {
+                    console.error('Erro ao configurar requisição:', error.message);
+                }
+            });
     };
+
     const handleNavigateToProdutos = () => {
         navigate('Produtos');
-    }
+    };
 
     return (
         <KeyboardAvoidingView
@@ -29,8 +65,8 @@ export default function CadastProd() {
                 <View style={styles.headerContent}>
                     <View style={styles.backButton}>
                         <TouchableOpacity
-                        onPress={handleNavigateToProdutos}
-                        style={styles.button}
+                            onPress={handleNavigateToProdutos}
+                            style={styles.button}
                         >
                             <Image
                                 source={require('../assets/img/back.png')}
@@ -57,6 +93,8 @@ export default function CadastProd() {
                         placeholderTextColor="#757575"
                         textAlign="left"
                         multiline
+                        value={nomeProduto}
+                        onChangeText={(text) => setNomeProduto(text)}
                     />
                 </View>
 
@@ -68,17 +106,21 @@ export default function CadastProd() {
                         placeholderTextColor="#757575"
                         textAlign="left"
                         multiline
+                        value={descricao}
+                        onChangeText={(text) => setDescricao(text)}
                     />
                 </View>
 
                 <View>
-                    <Text style={styles.textForm}>Quantidade</Text>
+                    <Text style={styles.textForm}>Quantidade(Em KG)</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Quantidade"
+                        placeholder="Quantidade(KG)"
                         placeholderTextColor="#757575"
                         textAlign="left"
-                        multiline
+                        keyboardType="numeric"
+                        value={qtdEstoque}
+                        onChangeText={(text) => setQtdEstoque(text)}
                     />
                 </View>
 
@@ -90,21 +132,22 @@ export default function CadastProd() {
                         placeholderTextColor="#757575"
                         textAlign="left"
                         keyboardType="numeric"
-                        value={price}
-                        onChangeText={handlePriceChange}
+                        value={preco}
+                        onChangeText={(text) => setPreco(text)}
                     />
                 </View>
-            </ScrollView>
 
-            <View style={styles.registerButtonContainer}>
-                <TouchableOpacity
-                    style={styles.registprodButton}
-                >
-                    <Text style={styles.inputButton}>
-                        Registrar produto
-                    </Text>
-                </TouchableOpacity>
-            </View>
+                <View style={styles.registerButtonContainer}>
+                    <TouchableOpacity
+                        style={styles.registprodButton}
+                        onPress={addProduto}
+                    >
+                        <Text style={styles.inputButton}>
+                            Registrar produto
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
         </KeyboardAvoidingView>
     );
 }
