@@ -51,12 +51,15 @@ export default function Produtos() {
             });
     };
 
+    const handleEditarProduto = (produto) => {
+        navigate('EditProdutoScreen', { produto });
+    };
 
     return (
         <View style={styles.container}>
             <StatusBar
                 backgroundColor="#4B9B69"
-                barStyle={false}
+                barStyle="light-content"
             />
             <View style={styles.header}>
                 <View style={styles.headerContent}>
@@ -138,6 +141,13 @@ export default function Produtos() {
                                     onPress={() => handleDeleteProduto(produto.idProduto)}
                                 >
                                     <Text style={styles.deleteButtonText}>Apagar</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={styles.editButton}
+                                    onPress={() => handleEditarProduto(produto)}
+                                >
+                                    <Text style={styles.editButtonText}>Editar</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -269,6 +279,18 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     deleteButtonText: {
+        color: 'white',
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 16,
+    },
+    editButton: {
+        backgroundColor: '#4B9B69',
+        alignItems: 'center',
+        borderRadius: 10,
+        padding: 10,
+        marginTop: 10,
+    },
+    editButtonText: {
         color: 'white',
         fontFamily: 'Poppins_400Regular',
         fontSize: 16,

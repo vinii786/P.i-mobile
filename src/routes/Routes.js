@@ -10,6 +10,7 @@ import Vendas from '../pages/Vendas';
 import CadastProd from '../pages/CadastProd';
 import CadastClient from '../pages/CadastClient'
 import CadastVendas from '../pages/CadastVendas'
+import EditProdutoScreen from '../pages/editProd';
 
 const Stack = createNativeStackNavigator();
 
@@ -65,6 +66,11 @@ export default function Routes(){
             <Stack.Screen
                 name= "CadastVendas"
                 component={CadastVendas}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name= "EditProdutoScreen"
+                component={EditProdutoScreen}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>
